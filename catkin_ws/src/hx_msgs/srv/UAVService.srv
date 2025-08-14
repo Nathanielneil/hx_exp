@@ -1,0 +1,14 @@
+# HX UAV Service Definition
+
+# Service request
+string request_type
+string[] parameters
+geometry_msgs/Point target_position
+float64 target_yaw
+
+---
+
+# Service response
+bool success
+string message
+UAVState current_state

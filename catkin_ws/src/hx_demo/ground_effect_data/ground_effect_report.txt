@@ -1,0 +1,15 @@
+实验参数:
+- 起飞高度: 4.0m
+- 降落速度: 0.4m/s
+- 悬停时间: 5.0s
+- 测试控制器: ['PID', 'UDE', 'ADRC']
+
+实验说明:
+- 地面效应通常在高度1.5米以下开始显现
+- 表现为升力增加，可能导致无人机难以降落
+- 不同控制器应对地面效应的能力不同
+
+数据文件:
+- PID_ground_effect_test.csv
+- UDE_ground_effect_test.csv
+- ADRC_ground_effect_test.csv

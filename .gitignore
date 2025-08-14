@@ -1,0 +1,72 @@
+# 特定不上传的文件和目录
+HX_UAV_SYSTEM_ARCHITECTURE.md
+PROJECT_ARCHIVE_MILESTONE.md
+.claude/
+.vscode/
+
+# ROS编译文件
+catkin_ws/build/
+catkin_ws/devel/
+catkin_ws/logs/
+
+# Python缓存
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# 编译器生成的文件
+*.o
+*.a
+*.lib
+*.dll
+*.exe
+
+# 日志文件
+*.log
+
+# 临时文件
+*.tmp
+*.temp
+*~
+*.swp
+*.swo
+
+# 系统文件
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE文件
+*.user
+*.suo
+*.sdf
+.vs/
+
+# AirSim生成文件和大文件
+*/Saved/Crashes/
+*/Saved/Logs/*backup*
+*/Intermediate/
+*/Binaries/
+*.pak
+*/Content/Paks/
+airsim_env/LinuxNoEditor/Blocks/Binaries/
+airsim_env/LinuxNoEditor/Blocks/Content/Paks/
+
+# 大文件和数据文件（如果不需要）
+*.bag
+*.rosbag
+
+# CMake生成文件
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# 其他可能的垃圾文件
+*.bak
+*.orig

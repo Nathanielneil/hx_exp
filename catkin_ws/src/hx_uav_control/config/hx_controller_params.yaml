@@ -1,0 +1,131 @@
+# HX UAV Controller Parameters Configuration
+
+# System Parameters
+control_frequency: 50.0        # Control loop frequency (Hz)
+state_frequency: 20.0          # State update frequency (Hz)
+
+# Vehicle Parameters
+vehicle_name: "Drone1"
+use_ned_frame: true            # Use NED coordinate system
+
+# AirSim Interface Parameters
+airsim:
+  ip: "localhost"
+  port: 41451
+  timeout: 10.0               # Connection timeout (seconds)
+
+state_update_frequency: 50.0   # AirSim state update frequency
+
+# Safety Parameters
+safety:
+  max_velocity: 5.0           # Maximum velocity (m/s)
+  max_acceleration: 3.0       # Maximum acceleration (m/s^2)
+  flight_boundary: 50.0       # Flight boundary radius (m)
+  min_height: 0.5            # Minimum flight height (m)
+  max_height: 20.0           # Maximum flight height (m)
+  emergency_land_speed: -1.0  # Emergency landing speed (m/s)
+
+# PID Controller Parameters
+pid_gain:
+  quad_mass: 1.5              # Vehicle mass (kg)
+  hov_percent: 0.6            # Hover throttle percentage
+  tilt_angle_max: 15.0        # Maximum tilt angle (degrees)
+  
+  # Position gains
+  Kp_xy: 0.8                  # Horizontal position gain
+  Kp_z: 1.0                   # Vertical position gain
+  
+  # Velocity gains
+  Kv_xy: 0.5                  # Horizontal velocity gain
+  Kv_z: 0.8                   # Vertical velocity gain
+  
+  # Integral gains
+  Kvi_xy: 0.05                # Horizontal velocity integral gain
+  Kvi_z: 0.08                 # Vertical velocity integral gain
+  
+  # Integral limits
+  pxy_int_max: 0.5           # Horizontal integral limit
+  pz_int_max: 0.5            # Vertical integral limit
+
+# UDE Controller Parameters
+ude_gain:
+  quad_mass: 1.5              # Vehicle mass (kg)
+  hov_percent: 0.6            # Hover throttle percentage
+  tilt_angle_max: 15.0        # Maximum tilt angle (degrees)
+  
+  # Baseline controller gains
+  Kp_xy: 1.2                  # Horizontal position gain
+  Kp_z: 1.5                   # Vertical position gain
+  Kd_xy: 0.8                  # Horizontal damping gain
+  Kd_z: 1.0                   # Vertical damping gain
+  
+  # UDE filter parameter
+  T_ude: 0.1                  # UDE filter time constant
+  
+  # Integral limits
+  pxy_int_max: 1.0           # Horizontal integral limit
+  pz_int_max: 1.0            # Vertical integral limit
+
+# ADRC Controller Parameters
+adrc_gain:
+  quad_mass: 1.5              # Vehicle mass (kg)
+  hov_percent: 0.6            # Hover throttle percentage
+  tilt_angle_max: 15.0        # Maximum tilt angle (degrees)
+  
+  # Extended State Observer (ESO) parameters
+  eso_l1: 100.0              # ESO parameter l1
+  eso_l2: 200.0              # ESO parameter l2
+  eso_l3: 100.0              # ESO parameter l3
+  eso_alpha: 0.5             # ESO alpha parameter
+  eso_eps: 0.01              # ESO epsilon parameter
+  
+  # Saturation controller parameters
+  controller_k1: 10.0        # Controller gain k1
+  controller_k2: 5.0         # Controller gain k2
+  controller_L1: 1.0         # Saturation parameter L1
+  controller_M1: 0.5         # Saturation parameter M1
+  controller_L2: 1.0         # Saturation parameter L2
+  controller_M2: 0.5         # Saturation parameter M2
+
+# Trajectory Parameters
+trajectory:
+  circle:
+    radius: 3.0              # Circle radius (m)
+    speed: 2.0               # Circle speed (m/s)
+    height: 3.0              # Circle height (m)
+    
+  eight:
+    radius: 3.0              # Figure-8 radius (m)
+    speed: 1.5               # Figure-8 speed (m/s)
+    height: 3.0              # Figure-8 height (m)
+    
+  waypoint:
+    speed: 2.0               # Waypoint navigation speed (m/s)
+    tolerance: 0.5           # Waypoint arrival tolerance (m)
+
+# Control Tolerances
+position_tolerance: 0.2      # Position control tolerance (m)
+velocity_tolerance: 0.1      # Velocity control tolerance (m/s)
+yaw_tolerance: 0.1          # Yaw control tolerance (rad)
+
+# Takeoff and Landing Parameters
+takeoff:
+  height: 3.0                # Default takeoff height (m)
+  speed: 1.0                 # Takeoff speed (m/s)
+
+landing:
+  speed: -0.5                # Landing speed (m/s)
+  final_height: 0.2          # Final landing height (m)
+
+# Debug and Logging
+debug:
+  enable_debug_output: false  # Enable debug output
+  log_controller_output: false # Log controller output to file
+  log_trajectory: false       # Log trajectory data
+  
+# Performance Monitoring
+monitoring:
+  enable_performance_analysis: true  # Enable performance analysis
+  analysis_window_size: 100          # Analysis window size (samples)
+  max_position_error: 2.0           # Maximum acceptable position error (m)
+  max_velocity_error: 1.0           # Maximum acceptable velocity error (m/s)

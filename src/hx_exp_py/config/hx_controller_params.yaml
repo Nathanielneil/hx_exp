@@ -1,0 +1,62 @@
+# HX Controller Configuration Parameters
+
+# Control loop frequency (Hz)
+control_frequency: 50.0
+
+# Position control tolerances
+position_tolerance: 0.2      # meters
+velocity_tolerance: 0.1      # m/s
+yaw_tolerance: 0.1          # radians (about 5.7 degrees)
+
+# Safety limits (更保守的设置，避免激进控制)
+max_velocity: 3.0           # m/s  
+max_acceleration: 2.0       # m/s^2
+max_yaw_rate: 0.8          # rad/s (about 45 degrees/s)
+max_tilt_angle: 0.3        # radians (about 17 degrees)
+
+# Position Controller PID Parameters (优化后，更保守的参数)
+# X-axis position control
+position_pid_0:
+  kp: 0.8
+  ki: 0.05
+  kd: 0.1
+  max_integral: 1.0
+  max_output: 3.0
+
+# Y-axis position control  
+position_pid_1:
+  kp: 0.8
+  ki: 0.05
+  kd: 0.1
+  max_integral: 1.0
+  max_output: 3.0
+
+# Z-axis position control
+position_pid_2:
+  kp: 1.0
+  ki: 0.08
+  kd: 0.15
+  max_integral: 1.0
+  max_output: 2.0
+
+# Yaw control PID parameters
+yaw_pid:
+  kp: 2.0
+  ki: 0.0
+  kd: 0.1
+  max_integral: 0.5
+  max_output: 1.0
+
+# AirSim Interface Parameters
+airsim_interface:
+  max_velocity: 10.0
+  max_acceleration: 5.0
+  max_yaw_rate: 1.57        # rad/s (90 degrees/s)
+  position_tolerance: 0.1
+  velocity_tolerance: 0.1
+
+# Vehicle configuration
+vehicle_name: "Drone1"
+
+# Frame conversions (if needed)
+use_ned_frame: false        # Set to true if using NED, false for ENU

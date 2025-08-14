@@ -1,0 +1,90 @@
+# Ground Effect Experiment Scenarios Configuration
+# Different test scenarios to evaluate ground effect handling
+
+# Default scenario - standard conditions
+default:
+  takeoff_height: 3.0          # Takeoff to 3 meters
+  landing_speed: 0.5           # Landing at 0.5 m/s
+  hover_duration: 5.0          # Hover for 5 seconds before landing
+  controllers: [1, 2, 3]       # Test PID, UDE, ADRC
+  auto_repeat: true            # Automatically test all controllers
+
+# Slow landing scenario - better for observing ground effect
+slow_landing:
+  takeoff_height: 4.0          # Higher takeoff for longer test
+  landing_speed: 0.3           # Very slow landing
+  hover_duration: 8.0          # Longer stabilization
+  controllers: [1, 2, 3]       
+  auto_repeat: true
+
+# Fast landing scenario - more challenging
+fast_landing:
+  takeoff_height: 3.0          
+  landing_speed: 0.8           # Faster landing - more challenging
+  hover_duration: 3.0          # Shorter hover
+  controllers: [1, 2, 3]       
+  auto_repeat: true
+
+# High altitude test - minimal ground effect
+high_altitude:
+  takeoff_height: 5.0          # Higher altitude
+  landing_speed: 0.5           
+  hover_duration: 5.0          
+  controllers: [1, 2, 3]       
+  auto_repeat: true
+
+# Low altitude test - maximum ground effect
+low_altitude:
+  takeoff_height: 2.0          # Lower altitude - more ground effect
+  landing_speed: 0.4           
+  hover_duration: 6.0          
+  controllers: [1, 2, 3]       
+  auto_repeat: true
+
+# PID only test - for focused analysis
+pid_only:
+  takeoff_height: 3.0          
+  landing_speed: 0.5           
+  hover_duration: 5.0          
+  controllers: [1]             # Only PID controller
+  auto_repeat: false
+
+# UDE only test
+ude_only:
+  takeoff_height: 3.0          
+  landing_speed: 0.5           
+  hover_duration: 5.0          
+  controllers: [2]             # Only UDE controller
+  auto_repeat: false
+
+# ADRC only test
+adrc_only:
+  takeoff_height: 3.0          
+  landing_speed: 0.5           
+  hover_duration: 5.0          
+  controllers: [3]             # Only ADRC controller
+  auto_repeat: false
+
+# Variable speed test - multiple landing speeds
+variable_speed:
+  takeoff_height: 4.0          
+  landing_speeds: [0.2, 0.5, 0.8]  # Test multiple speeds (requires custom implementation)
+  hover_duration: 5.0          
+  controllers: [1, 2, 3]       
+  auto_repeat: true
+
+# Precision test - very slow and precise
+precision_test:
+  takeoff_height: 3.0          
+  landing_speed: 0.2           # Very slow for maximum precision
+  hover_duration: 10.0         # Long stabilization
+  controllers: [1, 2, 3]       
+  auto_repeat: true
+
+# Robustness test - challenging conditions
+robustness_test:
+  takeoff_height: 4.0          
+  landing_speed: 0.7           # Faster landing
+  hover_duration: 2.0          # Minimal hover time
+  controllers: [1, 2, 3]       
+  auto_repeat: true

@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- HX Multi-UAV Control System Launch File -->
+    
+    <!-- Arguments -->
+    <arg name="num_uavs" default="3"/>
+    <arg name="airsim_ip" default="localhost"/>
+    <arg name="airsim_port" default="41451"/>
+    
+    <!-- Load global parameters -->
+    <rosparam file="$(find hx_uav_control)/config/hx_controller_params.yaml" command="load"/>
+    
+    <!-- Launch UAV 1 -->
+    <group ns="Drone1">
+        <include file="$(find hx_uav_control)/launch/hx_uav_control_main.launch">
+            <arg name="vehicle_name" value="Drone1"/>
+            <arg name="airsim_ip" value="$(arg airsim_ip)"/>
+            <arg name="airsim_port" value="$(arg airsim_port)"/>
+        </include>
+    </group>
+    
+    <!-- Launch UAV 2 if requested -->
+    <group ns="Drone2" if="$(eval arg('num_uavs') >= 2)">
+        <include file="$(find hx_uav_control)/launch/hx_uav_control_main.launch">
+            <arg name="vehicle_name" value="Drone2"/>
+            <arg name="airsim_ip" value="$(arg airsim_ip)"/>
+            <arg name="airsim_port" value="$(arg airsim_port)"/>
+        </include>
+    </group>
+    
+    <!-- Launch UAV 3 if requested -->
+    <group ns="Drone3" if="$(eval arg('num_uavs') >= 3)">
+        <include file="$(find hx_uav_control)/launch/hx_uav_control_main.launch">
+            <arg name="vehicle_name" value="Drone3"/>
+            <arg name="airsim_ip" value="$(arg airsim_ip)"/>
+            <arg name="airsim_port" value="$(arg airsim_port)"/>
+        </include>
+    </group>
+    
+    <!-- Formation Controller (if multi-UAV formation is needed) -->
+    <!-- <node name="formation_controller" pkg="hx_uav_control" type="formation_controller_node" output="screen" if="$(eval arg('num_uavs') > 1)"/> -->
+    
+</launch>

@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Ground Effect Experiment Launch File -->
+    
+    <!-- Arguments -->
+    <arg name="vehicle_name" default="Drone1"/>
+    <arg name="takeoff_height" default="3.0"/>
+    <arg name="landing_speed" default="0.5"/>
+    <arg name="hover_duration" default="5.0"/>
+    <arg name="controllers" default="[1, 2, 3]"/>
+    <arg name="data_dir" default="$(find hx_demo)/ground_effect_data"/>
+    <arg name="auto_repeat" default="true"/>
+    <arg name="use_python" default="true"/>
+    
+    <!-- Start HX UAV Control System -->
+    <include file="$(find hx_uav_control)/launch/hx_uav_control_main.launch">
+        <arg name="vehicle_name" value="$(arg vehicle_name)"/>
+    </include>
+    
+    <!-- Wait for system initialization -->
+    <arg name="delay" default="8"/>
+    
+    <!-- Python version (recommended) -->
+    <group if="$(arg use_python)">
+        <node name="ground_effect_experiment_python" pkg="hx_demo" type="ground_effect_experiment.py" 
+              output="screen" launch-prefix="bash -c 'sleep $(arg delay); $0 $@'">
+            <param name="takeoff_height" value="$(arg takeoff_height)"/>
+            <param name="landing_speed" value="$(arg landing_speed)"/>
+            <param name="hover_duration" value="$(arg hover_duration)"/>
+            <param name="data_dir" value="$(arg data_dir)"/>
+            <param name="auto_repeat" value="$(arg auto_repeat)"/>
+            <rosparam param="controllers">$(arg controllers)</rosparam>
+            
+            <remap from="/Drone1/hx_uav/command" to="/$(arg vehicle_name)/hx_uav/command"/>
+            <remap from="/Drone1/hx_uav/state" to="/$(arg vehicle_name)/hx_uav/state"/>
+            <remap from="/Drone1/hx_uav/control_state" to="/$(arg vehicle_name)/hx_uav/control_state"/>
+            <remap from="/Drone1/hx_uav/controller_output" to="/$(arg vehicle_name)/hx_uav/controller_output"/>
+        </node>
+    </group>
+    
+    <!-- C++ version -->
+    <group unless="$(arg use_python)">
+        <node name="ground_effect_experiment_cpp" pkg="hx_demo" type="ground_effect_experiment" 
+              output="screen" launch-prefix="bash -c 'sleep $(arg delay); $0 $@'">
+            <param name="experiment/takeoff_height" value="$(arg takeoff_height)"/>
+            <param name="experiment/landing_speed" value="$(arg landing_speed)"/>
+            <param name="experiment/hover_duration" value="$(arg hover_duration)"/>
+            <param name="experiment/data_file" value="$(arg data_dir)/ground_effect_data.csv"/>
+            <param name="experiment/auto_repeat" value="$(arg auto_repeat)"/>
+            
+            <remap from="/Drone1/hx_uav/command" to="/$(arg vehicle_name)/hx_uav/command"/>
+            <remap from="/Drone1/hx_uav/state" to="/$(arg vehicle_name)/hx_uav/state"/>
+            <remap from="/Drone1/hx_uav/control_state" to="/$(arg vehicle_name)/hx_uav/control_state"/>
+            <remap from="/Drone1/hx_uav/controller_output" to="/$(arg vehicle_name)/hx_uav/controller_output"/>
+        </node>
+    </group>
+    
+</launch>

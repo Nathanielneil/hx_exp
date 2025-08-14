@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Basic Position Control Demo Launch File -->
+    
+    <!-- Arguments -->
+    <arg name="vehicle_name" default="Drone1"/>
+    
+    <!-- Start HX UAV Control System -->
+    <include file="$(find hx_uav_control)/launch/hx_uav_control_main.launch">
+        <arg name="vehicle_name" value="$(arg vehicle_name)"/>
+    </include>
+    
+    <!-- Wait a moment for system initialization -->
+    <arg name="delay" default="5"/>
+    
+    <!-- Run Basic Position Control Demo -->
+    <node name="basic_position_control_demo" pkg="hx_demo" type="basic_position_control" 
+          output="screen" launch-prefix="bash -c 'sleep $(arg delay); $0 $@'">
+        <remap from="/Drone1/hx_uav/command" to="/$(arg vehicle_name)/hx_uav/command"/>
+        <remap from="/Drone1/hx_uav/state" to="/$(arg vehicle_name)/hx_uav/state"/>
+        <remap from="/Drone1/hx_uav/control_state" to="/$(arg vehicle_name)/hx_uav/control_state"/>
+    </node>
+    
+</launch>

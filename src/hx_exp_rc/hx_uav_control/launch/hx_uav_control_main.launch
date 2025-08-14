@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- HX UAV Control System Main Launch File -->
+    
+    <!-- Arguments -->
+    <arg name="vehicle_name" default="Drone1"/>
+    <arg name="airsim_ip" default="localhost"/>
+    <arg name="airsim_port" default="41451"/>
+    <arg name="config_file" default="$(find hx_uav_control)/config/hx_controller_params.yaml"/>
+    
+    <!-- Load controller parameters -->
+    <rosparam file="$(arg config_file)" command="load"/>
+    
+    <!-- HX UAV Control Node -->
+    <node name="hx_uav_control_node" pkg="hx_uav_control" type="hx_uav_control_node" output="screen">
+        <param name="vehicle_name" value="$(arg vehicle_name)"/>
+        <remap from="/hx_uav/command" to="/$(arg vehicle_name)/hx_uav/command"/>
+        <remap from="/hx_uav/state" to="/$(arg vehicle_name)/hx_uav/state"/>
+        <remap from="/hx_uav/control_state" to="/$(arg vehicle_name)/hx_uav/control_state"/>
+        <remap from="/hx_uav/controller_output" to="/$(arg vehicle_name)/hx_uav/controller_output"/>
+    </node>
+    
+    <!-- AirSim Interface Node (Python) -->
+    <node name="hx_airsim_interface_python" pkg="hx_uav_control" type="hx_airsim_interface_python.py" output="screen">
+        <param name="vehicle_name" value="$(arg vehicle_name)"/>
+        <param name="airsim_ip" value="$(arg airsim_ip)"/>
+        <param name="airsim_port" value="$(arg airsim_port)"/>
+        <param name="state_update_frequency" value="50.0"/>
+        <param name="use_ned_frame" value="true"/>
+    </node>
+    
+    <!-- Static Transform Publisher for base_link to world -->
+    <node pkg="tf2_ros" type="static_transform_publisher" name="world_to_base_link"
+          args="0 0 0 0 0 0 world base_link"/>
+    
+    <!-- Optional: RViz for visualization -->
+    <node name="rviz" pkg="rviz" type="rviz" 
+          args="-d $(find hx_uav_control)/config/hx_visualization.rviz" 
+          if="$(eval arg('vehicle_name') == 'Drone1')"/>
+          
+</launch>

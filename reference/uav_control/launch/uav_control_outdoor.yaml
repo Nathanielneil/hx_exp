@@ -1,0 +1,43 @@
+## parameter for uav_control
+
+control:
+  ## 控制器编号：0 for PX4_ORIGIN, 1 for PID, 2 for UDE, 3 for NE, 4 for ADRC
+  pos_controller : 4
+
+  # 是否支持外部控制
+  enable_external_control : false
+  ## 起飞高度
+  Takeoff_height : 0.5
+  ## 降落速度
+  Land_speed : 0.2
+  ##　上锁高度
+  Disarm_height : 0.1
+  ## 定位源: 0 for MOCAP, 1 for T265, 2 for GAZEBO, 3 for FAKE_ODOM, 4 for GPS, 5 for RTK, 6 for UWB, 7 for VINS, 8 for OpticalFlow, 9 for Viobot, 10 for MID360
+  location_source : 4
+  ## 最大安全速度
+  maximum_safe_vel_xy : 5.0
+  maximum_safe_vel_z : 4.0
+  ## 最大vision/px4速度误差
+  maximum_vel_error_for_vision : 2.0
+
+
+##　地理围栏
+geo_fence:
+  x_min: -1000.0
+  x_max: 1000.0
+  y_min: -1000.0
+  y_max: 1000.0
+  z_min: -50.0
+  z_max: 1000.0
+
+ameso_gain:
+  quad_mass: 1.705
+  hov_percent: 0.49
+  pxy_int_max: 1.0
+  pz_int_max: 1.0
+  tilt_angle_max: 1.0
+  beta_max: 1
+  C1: 1.5
+  C2: 0.6
+  sigmaD: 1.0
+  amesogain_l: 3

@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- HX Complete System Launch File -->
+    <!-- This launch file starts AirSim and the complete HX UAV control system -->
+    
+    <!-- Arguments -->
+    <arg name="vehicle_name" default="Drone1"/>
+    <arg name="airsim_ip" default="localhost"/>
+    <arg name="airsim_port" default="41451"/>
+    <arg name="start_airsim" default="false"/>
+    <arg name="demo_mode" default="none"/>
+    
+    <!-- Start AirSim if requested -->
+    <node name="airsim_launcher" pkg="hx_uav_control" type="start_airsim.sh" 
+          if="$(arg start_airsim)" output="screen" required="false"/>
+    
+    <!-- Wait for AirSim to start -->
+    <arg name="airsim_delay" default="10" if="$(arg start_airsim)"/>
+    <arg name="airsim_delay" default="2" unless="$(arg start_airsim)"/>
+    
+    <!-- Start HX UAV Control System -->
+    <include file="$(find hx_uav_control)/launch/hx_uav_control_main.launch">
+        <arg name="vehicle_name" value="$(arg vehicle_name)"/>
+        <arg name="airsim_ip" value="$(arg airsim_ip)"/>
+        <arg name="airsim_port" value="$(arg airsim_port)"/>
+    </include>
+    
+    <!-- Demo Programs -->
+    <group if="$(eval arg('demo_mode') == 'basic')">
+        <node name="basic_position_control_demo" pkg="hx_demo" type="basic_position_control" 
+              output="screen" launch-prefix="bash -c 'sleep $(arg airsim_delay); $0 $@'">
+            <remap from="/Drone1/hx_uav/command" to="/$(arg vehicle_name)/hx_uav/command"/>
+            <remap from="/Drone1/hx_uav/state" to="/$(arg vehicle_name)/hx_uav/state"/>
+            <remap from="/Drone1/hx_uav/control_state" to="/$(arg vehicle_name)/hx_uav/control_state"/>
+        </node>
+    </group>
+    
+    <group if="$(eval arg('demo_mode') == 'circle')">
+        <node name="circle_trajectory_demo" pkg="hx_demo" type="circle_trajectory" 
+              output="screen" launch-prefix="bash -c 'sleep $(arg airsim_delay); $0 $@'">
+            <remap from="/Drone1/hx_uav/command" to="/$(arg vehicle_name)/hx_uav/command"/>
+            <remap from="/Drone1/hx_uav/state" to="/$(arg vehicle_name)/hx_uav/state"/>
+            <remap from="/Drone1/hx_uav/control_state" to="/$(arg vehicle_name)/hx_uav/control_state"/>
+        </node>
+    </group>
+    
+    <group if="$(eval arg('demo_mode') == 'python')">
+        <node name="takeoff_land_demo" pkg="hx_demo" type="takeoff_land_demo.py" 
+              output="screen" launch-prefix="bash -c 'sleep $(arg airsim_delay); $0 $@'">
+            <remap from="/Drone1/hx_uav/command" to="/$(arg vehicle_name)/hx_uav/command"/>
+            <remap from="/Drone1/hx_uav/state" to="/$(arg vehicle_name)/hx_uav/state"/>
+            <remap from="/Drone1/hx_uav/control_state" to="/$(arg vehicle_name)/hx_uav/control_state"/>
+        </node>
+    </group>
+    
+    <!-- Command Publisher Tool (interactive mode) -->
+    <group if="$(eval arg('demo_mode') == 'manual')">
+        <node name="hx_command_pub" pkg="hx_uav_control" type="hx_command_pub" 
+              output="screen" launch-prefix="bash -c 'sleep $(arg airsim_delay); $0 $@'">
+            <remap from="/hx_uav/command" to="/$(arg vehicle_name)/hx_uav/command"/>
+        </node>
+    </group>
+    
+</launch>
